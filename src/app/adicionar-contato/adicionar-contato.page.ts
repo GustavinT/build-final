@@ -22,11 +22,11 @@ export class AdicionarContatoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.contatoService.getContatos().subscribe(data => {
-      console.log('🔥 Dados do Firestore:', data);
-      this.contatos = data;
-    });
-  }
+  this.contatoService.getContatos().subscribe(contatos => {
+    console.log('🔥 Dados do Firestore:', contatos);
+    this.contatos = contatos;
+  });
+}
   
 
   async salvarContato() {

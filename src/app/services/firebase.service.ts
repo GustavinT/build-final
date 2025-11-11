@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, collectionData, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface Contato {
@@ -12,9 +12,8 @@ export interface Contato {
   providedIn: 'root'
 })
 export class ContatoService {
+  private firestore = inject(Firestore);
   private collectionName = 'contatos';
-
-  constructor(private firestore: Firestore) {}
 
   getContatos(): Observable<Contato[]> {
     const contatosRef = collection(this.firestore, this.collectionName);
@@ -29,7 +28,7 @@ export class ContatoService {
   updateContato(contato: Contato) {
     const contatoRef = doc(this.firestore, `${this.collectionName}/${contato.id}`);
     const contatoData = { nome: contato.nome, email: contato.email };
-    return updateDoc(contatoRef, contatoData as any);
+    return updateDoc(contatoRef, contatoData);
   }
 
   deleteContato(id: string) {
